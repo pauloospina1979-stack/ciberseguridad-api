@@ -1,7 +1,12 @@
+# --- Dependencias principales ---
 fastapi==0.114.2
 uvicorn[standard]==0.30.6
 SQLAlchemy==2.0.36
-psycopg2-binary==2.9.3
+psycopg==3.2.1              # ✅ psycopg3 moderno, compatible con Python 3.13
 python-dotenv==1.0.1
 PyJWT==2.9.0
 requests==2.32.3
+
+# --- Opcionales y utilitarias ---
+pydantic==2.12.3
+typing-extensions==4.15.0
