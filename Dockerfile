@@ -17,4 +17,5 @@ COPY . .
 # EXPOSE 8080
 
 # ⚠️ Importante: usar $PORT que pone Render; ${PORT:-8080} usa 8080 solo si no existe.
-CMD ["sh", "-c", "gunicorn -k uvicorn.workers.UvicornWorker -w 4 app:app -b 0.0.0.0:${PORT:-8080}"]
+CMD ["sh","-c","uvicorn app:app --host 0.0.0.0 --port ${PORT:-8080}"]
+
