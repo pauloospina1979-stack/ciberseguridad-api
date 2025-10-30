@@ -1,32 +1,26 @@
-import os
+# app.py
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from dotenv import load_dotenv
 from db import Base, engine
-from routers import modules, lessons, quizzes, attempts, progress, dashboard
 
-load_dotenv()
-origins = [o.strip() for o in os.getenv("API_CORS_ORIGINS", "*").split(",") if o]
+# 👇 Si tienes modelos (tablas) definidos, impórtalos aquí antes de crear las tablas
+# from modelos import Usuario, Curso, Evaluacion  # Ejemplo
 
-app = FastAPI(title="SAFE-like API", version="0.1.0")
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=origins or ["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-# (Opcional) crear metadata si usas SQLAlchemy ORM para crear tablas
+# ⚠️ Esta línea crea las tablas automáticamente si no existen
+# (en producción se recomienda usar Alembic, pero para pruebas en Render puedes dejarlo así)
 # Base.metadata.create_all(bind=engine)
 
-app.include_router(modules.router)
-app.include_router(lessons.router)
-app.include_router(quizzes.router)
-app.include_router(attempts.router)
-app.include_router(progress.router)
-app.include_router(dashboard.router)
+app = FastAPI(
+    title="API de Ciberseguridad",
+    version="1.0.0",
+    description="API desplegada en Render con FastAPI, SQLAlchemy y psycopg3",
+)
 
+# 🏠 Ruta raíz
 @app.get("/")
 def root():
-    return {"status": "ok", "service": "SAFE-like API"}
+    return {"message": "API desplegada correctamente 🚀"}
+
+# 🔍 Ruta de verificación de salud
+@app.get("/health")
+def health_check():
+    return {"status": "ok"}
